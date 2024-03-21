@@ -1,30 +1,25 @@
-name: Check URL and Notify
+name: URL Check and Telegram Notification
 
 on:
-  push:
-    branches:
-      - main
+  schedule:
+    - cron: '*/1 * * * *' # Run every 2 minutes
 
 jobs:
+
   check-url:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Check URL
+      id: check_url
+      run: |
+        url_response=$(curl --write-out '%{http_code}' --silent --output /dev/null 'https://example.com')
+        echo "::set-output name=status_code::$url_response"
 
-      - name: Make HTTP request
-        id: http
-        run: echo "::set-output name=status_code::$(curl -s -o /dev/null -w "%{http_code}" https://dev-api.flarie.com/rest/integration-service/v1/health"
-
-      - name: Check response status
-        if: steps.http.outputs.status_code == '200'
-        run: echo "URL is accessible."
-
-      - name: Notify Telegram subscribers
-        if: steps.http.outputs.status_code == '200'
-        uses: appleboy/telegram-action@master
-        with:
-          to: ${{ secrets.TELEGRAM_TO }}
-          token: ${{ secrets.TELEGRAM_TOKEN }}
-          message: The URL is running fine!
+    - name: Send Telegram Notification
+      if: steps.check_url.outputs.status_code == '200'
+      uses: appleboy/telegram-action@master
+      with:
+        to: '@bd_ticket_test1_bot'
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        message: Yesss
