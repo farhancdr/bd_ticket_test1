@@ -1,8 +1,9 @@
-name: URL Check and Telegram Notification
+name: Check URL and Notify
 
 on:
-  schedule:
-    - cron: '*/1 * * * *' # Run every 2 minutes
+  push:
+    branches:
+      - main
 
 jobs:
 
@@ -13,7 +14,7 @@ jobs:
     - name: Check URL
       id: check_url
       run: |
-        url_response=$(curl --write-out '%{http_code}' --silent --output /dev/null 'https://example.com')
+        url_response=$(curl --write-out '%{http_code}' --silent --output /dev/null 'https://dev-api.flarie.com/rest/integration-service/v1/health')
         echo "::set-output name=status_code::$url_response"
 
     - name: Send Telegram Notification
