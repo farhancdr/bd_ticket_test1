@@ -1,11 +1,12 @@
+require('dotenv').config()
+
 const axios = require("axios");
 const TelegramBot = require("node-telegram-bot-api");
 
 const url =
   "https://railspaapi.shohoz.com/v1.0/web/bookings/search-trips-v2?from_city=Chattogram&to_city=Dhaka&date_of_journey=22-Mar-2024&seat_class=S_CHAIR"; // Replace with the actual URL
 
-// Replace 'YOUR_TELEGRAM_BOT_TOKEN' with your actual Telegram bot token
-const bot = new TelegramBot("7116904342:AAG3KvlWynJ-lxEinjt2ecABmo3u5XlY7gU", {
+const bot = new TelegramBot(process.env.TELEGRAM_TOKEN, {
   polling: false,
 });
 
@@ -32,7 +33,7 @@ const fetchAndProcessData = async () => {
           }
         });
       });
-      bot.sendMessage("-1002061045964", finalMessage); // Replace 'YOUR_CHAT_ID' with your actual chat ID
+      bot.sendMessage(process.env.CHANNEL_ID, finalMessage); // Replace 'YOUR_CHAT_ID' with your actual chat ID
     }
   } catch (error) {
     console.error("Error fetching or processing data:", error);

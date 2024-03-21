@@ -9,6 +9,10 @@ jobs:
 
   check-ticket:
     runs-on: ubuntu-latest
+
+    env:
+      CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
+      TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
     
     steps:
     - uses: actions/checkout@v3
