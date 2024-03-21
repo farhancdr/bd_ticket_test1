@@ -1,0 +1,35 @@
+name: Check Ticket
+
+on:
+  schedule:
+    - cron: '* * * * *' # Run every minute
+
+jobs:
+
+  check-ticket:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Use Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Run check-ticket command
+      id: check-ticket
+      run: |
+        output=$(npm run check-ticket)
+        echo "::set-output name=output::$output"
+        
+    - name: Send message to Telegram
+      if: contains(steps.check-ticket.outputs.output, 'available')
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_TO }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        message: ${{ steps.check-ticket.outputs.output }}
