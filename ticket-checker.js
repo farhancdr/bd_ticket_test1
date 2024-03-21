@@ -28,12 +28,12 @@ const fetchAndProcessData = async () => {
           const { online } = seat_counts;
 
           if (online > 0) {
-            const message = `${trip_number} - ${type} has <b>${online}</b> number of seats available.`;
+            const message = `${trip_number} - ${type} has <b> ${online} </b> number of seats available.`;
             finalMessage = `${finalMessage} \n ${message}`;
           }
         });
       });
-      bot.sendMessage(process.env.CHANNEL_ID, finalMessage); // Replace 'YOUR_CHAT_ID' with your actual chat ID
+      bot.sendMessage(process.env.CHANNEL_ID, finalMessage, {parse_mode: 'HTML'} ); // Replace 'YOUR_CHAT_ID' with your actual chat ID
     }
   } catch (error) {
     console.error("Error fetching or processing data:", error);
