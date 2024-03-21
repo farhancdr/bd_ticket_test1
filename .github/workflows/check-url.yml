@@ -1,8 +1,9 @@
 name: Check URL and Notify
 
 on:
-  schedule:
-    - cron: "*/5 * * * *"
+  push:
+    branches:
+      - main
 
 jobs:
   check-url:
@@ -14,7 +15,7 @@ jobs:
 
       - name: Make HTTP request
         id: http
-        run: echo "::set-output name=status_code::$(curl -s -o /dev/null -w "%{http_code}" https://example.com/your-url)"
+        run: echo "::set-output name=status_code::$(curl -s -o /dev/null -w "%{http_code}" https://dev-api.flarie.com/rest/integration-service/v1/health"
 
       - name: Check response status
         if: steps.http.outputs.status_code == '200'
