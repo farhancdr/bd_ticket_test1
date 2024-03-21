@@ -1,0 +1,25 @@
+name: Hourly URL Check and Telegram Notification
+
+on:
+  schedule:
+    - cron: '*/2 * * * *' # Run every 2 minutes
+
+jobs:
+
+  check-url:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check URL
+      id: check_url
+      run: |
+        url_response=$(curl --write-out '%{http_code}' --silent --output /dev/null 'https://dev-api.flarie.com/rest/integration-service/v1/health')
+        echo "::set-output name=status_code::$url_response"
+
+    - name: Send Telegram Notification
+      if: steps.check_url.outputs.status_code == '200'
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_TO }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        message: The URL is running fine!
