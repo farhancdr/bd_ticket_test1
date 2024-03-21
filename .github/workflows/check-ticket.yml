@@ -27,11 +27,3 @@ jobs:
       run: |
         output=$(npm run check-ticket)
         echo "::set-output name=output::$output"
-        
-    - name: Send message to Telegram
-      if: contains(steps.check-ticket.outputs.output, 'available')
-      uses: appleboy/telegram-action@master
-      with:
-        to: -1002061045964
-        token: 7116904342:AAG3KvlWynJ-lxEinjt2ecABmo3u5XlY7gU
-        message: ${{ steps.check-ticket.outputs.output }}
