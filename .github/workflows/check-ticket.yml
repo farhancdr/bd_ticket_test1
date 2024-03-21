@@ -1,8 +1,9 @@
 name: Check Ticket
 
 on:
-  schedule:
-    - cron: '*/1 * * * *' # Runs every minute
+  push:
+    branches:
+      - 'main'
 
 jobs:
 
