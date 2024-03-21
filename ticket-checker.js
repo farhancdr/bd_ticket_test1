@@ -28,7 +28,7 @@ const fetchAndProcessData = async () => {
           const { online } = seat_counts;
 
           if (online > 0) {
-            const message = `${trip_number} - ${type} has ${online} number of seats available.`;
+            const message = `${trip_number} - ${type} has <b>${online}</b> number of seats available.`;
             finalMessage = `${finalMessage} \n ${message}`;
           }
         });
