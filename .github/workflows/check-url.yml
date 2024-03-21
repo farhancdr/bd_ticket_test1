@@ -1,0 +1,29 @@
+name: Check URL and Notify
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+
+jobs:
+  check-url:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Make HTTP request
+        id: http
+        run: echo "::set-output name=status_code::$(curl -s -o /dev/null -w "%{http_code}" https://example.com/your-url)"
+
+      - name: Check response status
+        if: steps.http.outputs.status_code == '200'
+        run: echo "URL is accessible."
+
+      - name: Notify Telegram subscribers
+        if: steps.http.outputs.status_code == '200'
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: The URL is running fine!
