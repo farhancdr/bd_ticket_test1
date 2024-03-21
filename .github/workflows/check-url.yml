@@ -14,5 +14,5 @@ jobs:
       - name: send default message
         uses: appleboy/telegram-action@master
         with:
-          to: ${{ secrets.TELEGRAM_TO }}
-          token: ${{ secrets.TELEGRAM_TOKEN }}
+          to: -1002084183967
+          token: 7136640152:AAFJbM-Mq-sQNFGtZ1_2WrreJMk71eTj9Ys
