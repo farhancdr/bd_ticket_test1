@@ -14,5 +14,5 @@ jobs:
       - name: send default message
         uses: appleboy/telegram-action@master
         with:
-          to: ticket_not_1
+          to: -1002018646118
           token: 7136640152:AAFJbM-Mq-sQNFGtZ1_2WrreJMk71eTj9Ys
