@@ -21,6 +21,6 @@ jobs:
       if: steps.check_url.outputs.status_code == '200'
       uses: appleboy/telegram-action@master
       with:
-        to: 'bd_ticket_test1_bot'
+        to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
         message: Yesss
